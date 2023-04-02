@@ -1,0 +1,5 @@
+[run]
+source = aspreno
+
+[html]
+directory = tests/coverage_html_report

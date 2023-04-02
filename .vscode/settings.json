@@ -1,0 +1,17 @@
+{
+    "python.linting.mypyArgs": [
+        "--follow-imports=silent",
+        "--ignore-missing-imports",
+        "--show-column-numbers",
+        "--no-pretty",
+        "--enable-incomplete-feature=Unpack,TypeVarTuple"
+    ],
+    "python.linting.mypyEnabled": true,
+    "python.linting.enabled": true,
+    "cSpell.words": [
+        "Aspreno",
+        "excepthook",
+        "insegel"
+    ],
+    
+}
