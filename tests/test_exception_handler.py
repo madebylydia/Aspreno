@@ -1,4 +1,5 @@
 import typing
+
 import pytest
 
 from aspreno import ExceptionHandler
@@ -8,11 +9,13 @@ from aspreno import ExceptionHandler
 def handler() -> ExceptionHandler:
     return ExceptionHandler()
 
+
 class ExceptionSignalHandle(Exception):
     handle_called: bool = False
 
     def handle(self, **kwargs: typing.Any):
         self.handle_called = True
+
 
 @pytest.fixture()
 def signal_handle() -> ExceptionSignalHandle:
@@ -25,6 +28,7 @@ class ExceptionSignalReport(Exception):
     def report(self, **kwargs: typing.Any):
         self.report_called = True
 
+
 @pytest.fixture()
 def signal_report() -> ExceptionSignalReport:
     return ExceptionSignalReport()
@@ -32,7 +36,7 @@ def signal_report() -> ExceptionSignalReport:
 
 class ExceptionSignalHandleReport(ExceptionSignalHandle, ExceptionSignalReport):
     ...
-    
+
 
 @pytest.fixture()
 def signal_handle_and_report() -> ExceptionSignalHandleReport:

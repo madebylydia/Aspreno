@@ -15,6 +15,7 @@ def fibonacci(num: int) -> int:
 
     return fibonacci(num - 1) + fibonacci(num - 2)
 
+
 register_global_handler(ExceptionHandler())
 
 print(fibonacci(2))
