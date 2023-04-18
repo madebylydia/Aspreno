@@ -2,7 +2,8 @@ import sys
 from importlib.metadata import distribution as __dist
 
 from ._utils import log as _log
-from .global_handler import ExceptionHandler
+from .global_handler import ArgumentedException as ArgumentedException
+from .global_handler import ExceptionHandler as ExceptionHandler
 
 __version__ = __dist("aspreno").version
 __author__ = __dist("aspreno").metadata["Author"]
@@ -23,5 +24,4 @@ def register_global_handler(handler: ExceptionHandler):
 def reset_global_handler():
     global __old_excepthook
     _log.debug("Replacing global handler by default the old excepthook.")
-    if __old_excepthook:
-        sys.excepthook = __old_excepthook
+    sys.excepthook = __old_excepthook

@@ -1,4 +1,0 @@
-Basic information about Aspreno
-===============================
-
-

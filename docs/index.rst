@@ -103,6 +103,8 @@ You basically just have to create an exception manager, create your self-handled
    :maxdepth: 2
    :caption: Contents:
 
+   pages/guides
+   pages/information_about_aspreno
 
 
 Indices and tables

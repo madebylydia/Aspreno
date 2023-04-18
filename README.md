@@ -17,4 +17,10 @@
     </a>
 </div>
 
-Python 3 global error handling & self-handling exception.
+Python 3 global error handling & self-handling exceptions.
+
+## Features
+
+- Global exception handling
+- Self-handleable exceptions
+- Able to report specific exceptions

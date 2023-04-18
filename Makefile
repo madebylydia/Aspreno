@@ -12,7 +12,7 @@ endef
 export HELP_COMMAND
 
 test:
-	@coverage run -m pytest --html=tests/report/index.html . -v
+	@coverage run -m pytest --html=tests/report/index.html .
 	@coverage report -m
 	@coverage html
 
