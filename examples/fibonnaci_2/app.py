@@ -1,6 +1,6 @@
 from functools import lru_cache
 
-from exceptions.fibonacci import FibonacciException
+from fibonnaci_2.exceptions.fibonacci import FibonacciException
 
 from aspreno import ExceptionHandler, register_global_handler
 

@@ -8,13 +8,19 @@ Commands:
   test                       Test this project using pytest.
   format                     Format the source code using black and isort.
   lint                       Runs the linting tool (mypy)
+  help                       Show this text
 endef
 export HELP_COMMAND
 
 test:
-	@coverage run -m pytest --html=tests/report/index.html .
-	@coverage report -m
-	@coverage html
+	@pytest \
+		--html=tests/report/index.html \
+		--cov-config=.coveragerc \
+		--cov-context=test \
+		--cov-report=term-missing \
+		--cov-report=html \
+		--cov=aspreno \
+		tests
 
 format:
 	@black aspreno
@@ -24,4 +30,4 @@ lint:
 	@mypy aspreno
 
 help:
-	@echo "$$HELP_COMMAND"
+	@$(info $(HELP_COMMAND))

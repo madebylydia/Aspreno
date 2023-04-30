@@ -5,9 +5,10 @@ from aspreno import ExceptionHandler, register_global_handler
 
 
 class FibonacciHandler(ExceptionHandler):
-    def handle(self, error: BaseException, **kwargs: typing.Any):
+    def handle(self, error: BaseException, **kwargs: typing.Any) -> None:
         if isinstance(error, ValueError) and str(error) == "Fibonacci Incorrect value":
             print("You have given a number that cannot be worked upon Fibonacci sequence!")
+
         # Default handle's method
         super().handle(error, **kwargs)
 
@@ -28,4 +29,3 @@ register_global_handler(handler)
 
 print(fibonacci(1))
 print(fibonacci(-1))
-print("stuff")
