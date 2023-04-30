@@ -7,9 +7,13 @@ line_length = 99
 
 [tool.poetry]
 name = "aspreno"
-version = "1.0.0dev1"
-description = ""
+version = "1.0.0dev2"
+description = "Exception handler/reporter for exception & global exception handle using Python class"
 authors = ["Predeactor <pro.julien.mauroy@gmail.com>"]
+maintainers = ["Predeactor <pro.julien.mauroy@gmail.com>"]
+repository = "https://github.com/Predeactor/Aspreno"
+documentation = "https://aspreno.readthedocs.org"
+license = "MIT"
 readme = "README.md"
 
 [tool.poetry.dependencies]
