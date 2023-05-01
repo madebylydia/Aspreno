@@ -15,6 +15,7 @@ repository = "https://github.com/Predeactor/Aspreno"
 documentation = "https://aspreno.readthedocs.org"
 license = "MIT"
 readme = "README.md"
+include = ["LICENSE"]
 
 [tool.poetry.dependencies]
 python = "^3.11"

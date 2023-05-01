@@ -34,10 +34,10 @@ def test_relay(handler: aspreno.ExceptionHandler) -> None:
         handle_called = False
         report_called = False
 
-        def handle(self, error: BaseException, **kwargs: typing.Any) -> None:
+        def handle(self, **kwargs: typing.Any) -> None:
             self.handle_called = True
 
-        def report(self, error: BaseException, **kwargs: typing.Any) -> None:
+        def report(self, **kwargs: typing.Any) -> None:
             self.report_called = True
 
     try:
@@ -136,10 +136,8 @@ def test_handle_exception_argumented(handler: aspreno.ExceptionHandler) -> None:
         arg2: typing.Optional[str] = None
         traceback: typing.Any = None
 
-        def handle(
-            self, error: BaseException, arg1: str, *, arg2: str, traceback: typing.Any
-        ) -> None:
-            self.error = error
+        def handle(self, arg1: str, *, arg2: str, traceback: typing.Any) -> None:
+            self.error = self
             self.arg1 = arg1
             self.arg2 = arg2
             self.traceback = traceback
@@ -150,7 +148,7 @@ def test_handle_exception_argumented(handler: aspreno.ExceptionHandler) -> None:
         raise MyException(**{"arg1": "arg1", "arg2": "arg2"})
     except MyException as exception:
         sys.excepthook(type(exception), exception, exception.__traceback__)
-        assert exception.error is not None
+        assert exception.error == exception
         assert exception.arg1 == "arg1"
         assert exception.arg2 == "arg2"
         assert exception.traceback is not None
@@ -193,10 +191,8 @@ async def test_handle_exception_argumented_async(handler: aspreno.ExceptionHandl
         arg2: typing.Optional[str] = None
         traceback: typing.Any = None
 
-        async def handle(
-            self, error: BaseException, arg1: str, *, arg2: str, traceback: typing.Any
-        ) -> None:
-            self.error = error
+        async def handle(self, arg1: str, *, arg2: str, traceback: typing.Any) -> None:
+            self.error = self
             self.arg1 = arg1
             self.arg2 = arg2
             self.traceback = traceback
@@ -208,7 +204,7 @@ async def test_handle_exception_argumented_async(handler: aspreno.ExceptionHandl
     except MyException as exception:
         sys.excepthook(type(exception), exception, exception.__traceback__)
         await asyncio.sleep(1)
-        assert exception.error is not None
+        assert exception.error == exception
         assert exception.arg1 == "arg1"
         assert exception.arg2 == "arg2"
         assert exception.traceback is not None
@@ -302,10 +298,8 @@ def test_report_exception_argumented(handler: aspreno.ExceptionHandler) -> None:
         arg2: typing.Optional[str] = None
         traceback: typing.Any = None
 
-        def report(
-            self, error: BaseException, arg1: str, *, arg2: str, traceback: typing.Any
-        ) -> None:
-            self.error = error
+        def report(self, arg1: str, *, arg2: str, traceback: typing.Any) -> None:
+            self.error = self
             self.arg1 = arg1
             self.arg2 = arg2
             self.traceback = traceback
@@ -330,10 +324,8 @@ async def test_report_exception_argumented_async(handler: aspreno.ExceptionHandl
         arg2: typing.Optional[str] = None
         traceback: typing.Any = None
 
-        async def report(
-            self, error: BaseException, arg1: str, *, arg2: str, traceback: typing.Any
-        ) -> None:
-            self.error = error
+        async def report(self, arg1: str, *, arg2: str, traceback: typing.Any) -> None:
+            self.error = self
             self.arg1 = arg1
             self.arg2 = arg2
             self.traceback = traceback

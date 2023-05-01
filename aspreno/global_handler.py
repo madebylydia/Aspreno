@@ -127,8 +127,6 @@ class ExceptionHandler:
         )
         handled = False
 
-        kwargs |= {"error": error}
-
         # Attempt to call "handle" if available
         if hasattr(error, "handle"):
             _log.info(f"{error.__class__.__name__} has defined handle, letting it self-handle.")
