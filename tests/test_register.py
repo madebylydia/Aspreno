@@ -46,9 +46,9 @@ def test_reset_global_handler_with_custom_excepthook() -> None:
     was_called = False
 
     def custom_excepthook(
-        error_type: type[BaseException],
+        error_type: typing.Type[BaseException],
         value: BaseException,
-        traceback: types.TracebackType | None,
+        traceback: typing.Optional[types.TracebackType],
     ) -> None:
         logging.getLogger("aspreno").debug("NONPACKAGE: Custom excepthook called")
         nonlocal was_called

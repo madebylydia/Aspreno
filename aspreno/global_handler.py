@@ -16,24 +16,24 @@ class ArgumentedException(Exception):
     arguments to feed "handle" methods with arguments.
     """
 
-    additional_args: dict[str, typing.Any]
+    additional_args: typing.Dict[str, typing.Any]
 
     def __init__(self, *args: object, **kwargs: typing.Any) -> None:
         self.additional_args = kwargs
         super().__init__(*args)
 
-    def get_kwargs_for_handle(self) -> dict[str, typing.Any]:
+    def get_kwargs_for_handle(self) -> typing.Dict[str, typing.Any]:
         return self.get_kwargs_for_method(getattr(self, "handle"))
 
-    def get_kwargs_for_report(self) -> dict[str, typing.Any]:
+    def get_kwargs_for_report(self) -> typing.Dict[str, typing.Any]:
         return self.get_kwargs_for_method(getattr(self, "report"))
 
     def get_kwargs_for_method(
         self, method: typing.Callable[..., typing.Any]
-    ) -> dict[str, typing.Any]:
+    ) -> typing.Dict[str, typing.Any]:
         method_signature = signature(method)
 
-        kwargs: dict[str, typing.Any] = {
+        kwargs: typing.Dict[str, typing.Any] = {
             argument_name: self.additional_args[argument_name]
             for argument_name in method_signature.parameters
             if argument_name in self.additional_args
@@ -43,15 +43,15 @@ class ArgumentedException(Exception):
 
 
 class ExceptionHandler:
-    ignore_errors: list[type[BaseException]] = []
+    ignore_errors: typing.List[typing.Type[BaseException]] = []
     """
     A list of exceptions to ignore.
     If an exception has been set to be ignored, the "handle" method will not be called.
     """
 
-    old_excepthook: TYPE_EXCEPTHOOK | None = None
+    old_excepthook: typing.Optional[TYPE_EXCEPTHOOK] = None
 
-    _last_exception: type[BaseException] | None = None
+    _last_exception: typing.Optional[typing.Type[BaseException]] = None
     """
     Store the last exception that has been received.
 
@@ -74,9 +74,9 @@ class ExceptionHandler:
 
     def _global_handler(
         self,
-        error_type: type[BaseException],
+        error_type: typing.Type[BaseException],
         value: BaseException,
-        traceback: types.TracebackType | None,
+        traceback: typing.Optional[types.TracebackType],
     ) -> None:
         _log.debug(f"Received new error: {error_type}")
         self._last_exception = error_type
@@ -106,7 +106,8 @@ class ExceptionHandler:
 
     def handle(
         self, error: BaseException, **kwargs: typing.Any
-    ) -> typing.Coroutine[None, None, None] | None:
+    ) -> typing.Optional[typing.Coroutine[None, None, None]]:
+        # sourcery skip: dict-assign-update-to-union
         """
         Handles an exception.
 
@@ -139,7 +140,7 @@ class ExceptionHandler:
                 additional_kwargs = error.get_kwargs_for_handle()
 
                 # Merge kwargs together
-                handle_kwargs |= additional_kwargs.copy()
+                handle_kwargs.update(additional_kwargs)
 
             try:
                 _log.debug("Final kwargs for handle: %s", handle_kwargs)
@@ -180,7 +181,7 @@ class ExceptionHandler:
                 _log.debug("This is an ArgumentedException, obtaining additional kwargs.")
                 additional_kwargs = error.get_kwargs_for_report()
 
-                report_kwargs |= additional_kwargs
+                report_kwargs.update(additional_kwargs)
 
             try:
                 _log.debug("Final kwargs for report: %s", report_kwargs)

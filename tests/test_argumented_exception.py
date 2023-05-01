@@ -1,3 +1,5 @@
+from typing import Dict
+
 import pytest
 
 from aspreno import ArgumentedException
@@ -7,12 +9,12 @@ ARGS = {"argument_1": "I exist", "argument_2": 100, "argument_3": {"hello": "wor
 
 class MyArgumentedException(ArgumentedException):
     async def handle(
-        self, argument_1: str, argument_2: int, *, argument_3: dict[str, str]
+        self, argument_1: str, argument_2: int, *, argument_3: Dict[str, str]
     ) -> None:
         pass
 
     async def report(
-        self, argument_1: str, argument_2: int, *, argument_3: dict[str, str]
+        self, argument_1: str, argument_2: int, *, argument_3: Dict[str, str]
     ) -> None:
         pass
 
