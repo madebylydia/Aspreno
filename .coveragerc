@@ -1,0 +1,9 @@
+[run]
+source = aspreno
+
+[report]
+precision = 1
+
+[html]
+directory = tests/htmlcov
+show_contexts = true

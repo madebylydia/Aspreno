@@ -1,0 +1,50 @@
+name: "Tests"
+on: [push, pull_request]
+env:
+  COLUMNS: 120  # for pytest-pretty
+
+jobs:
+  run:
+    strategy:
+      matrix:
+        python-version: ['3.8', '3.9', '3.10', '3.11']
+
+    runs-on: ubuntu-latest
+    name: Tox - v${{ matrix.python-version }}
+
+    steps:
+      # Checkout the repository
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      # Load the cached installation of Poetry
+      - name: Load cached Poetry installation
+        id: cached-poetry
+        uses: actions/cache@v2
+        with:
+          path: ~/.local
+          key: poetry-${{ runner.os }}
+
+      # Install & configure Poetry
+      - name: Install Poetry
+        if: steps.cached-poetry.outputs.cache-hit != 'true'
+        uses: snok/install-poetry@v1
+
+      # Install Python
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'poetry'
+
+      - name: Install dependencies
+        run: poetry install --with dev
+
+      - name: Run tests
+        run: poetry run tox
+
+      - name: Export coverage
+        run: poetry run coverage json
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3
